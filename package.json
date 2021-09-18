@@ -1,0 +1,25 @@
+{
+  "name": "scrapperffta",
+  "version": "1.0.0",
+  "description": "Scrapper for FFTA website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasHubert01/ScrapperFFTA.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasHubert01/ScrapperFFTA/issues"
+  },
+  "homepage": "https://github.com/ThomasHubert01/ScrapperFFTA#readme",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "cheerio": "^1.0.0-rc.10",
+    "fs": "0.0.1-security",
+    "json": "^11.0.0"
+  }
+}
