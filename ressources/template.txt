@@ -1,6 +1,6 @@
 <dl class="dl-horizontal">
   <dt>État :</dt>
-  <dd><span title="EprvId / EprvNumero : 58929 / " class="eprv-state eprv-state-A">Validée</span>
+  <dd><span title="EprvId / EprvNumero : 58929 / " class="eprv-state eprv-state-X">Annulée</span>
   </dd>
 
   <dt>Structure Organisatrice :</dt>
@@ -525,7 +525,7 @@
   <dd>CARRIERES SUR SEINE</dd>
 
       <dt>Caractéristique :</dt>
-    <dd>Individuel<br>Championnat&nbsp;DD&nbsp;par&nbsp;équipe</dd>
+    <dd>Individuel</dd>
   
   <dt>Adresse :</dt>
   <dd>
@@ -547,75 +547,8 @@
     <dd>
       <a href="https://archers-de-carrieres78.sportsregions.fr" target="_blank">https://archers-de-carrieres78.sportsregions.fr</a>    </dd>
   
-  
-  
-
-</dl><dl class="dl-horizontal">
-  <dt>État :</dt>
-  <dd><span title="EprvId / EprvNumero : 57720 / 57719" class="eprv-state eprv-state-A">Validée</span>
-  </dd>
-
-  <dt>Structure Organisatrice :</dt>
-  <dd>0878124 - ARCHERS CARRIERES USMC</dd>
-
-
-  <dt>Nom de l’épreuve :</dt>
-  <dd>
-
-    CHALLENGE CATERINE CALEGARI    <img src="http://extranet.ffta.fr/templates/images/pictos/Champ-D.gif?2">  </dd>
-
-  <dt>Type d’épreuve :</dt>
-  <dd>Équipe</dd>
-
-  <dt>Département :</dt>
-  <dd>78000 - COMITE DEPARTEMENTAL YVELINES</dd>
-
-      <dt>Comité régional :</dt>
-    <dd>CR08 - COMITE REGIONAL ILE DE FRANCE DE TIR A L'ARC</dd>
-  
-  <dt>Discipline :</dt>
-  <dd>
-    Tir en Salle          - 2X18M          </dd>
-
-      <dt>Distances proposées :</dt>
-    <dd>
-      <ul class="list-unstyled inline">
-                  <li></li>
-        
-      </ul>
-    </dd>
-  
-  <dt>Date :</dt>
-  <dd>
-    Samedi 30/10/2021          <span> au </span>
-      Dimanche 31/10/2021      </dd>
-
-  <dt>Lieu :</dt>
-  <dd>CARRIERES SUR SEINE</dd>
-
-      <dt>Caractéristique :</dt>
-    <dd>Championnat&nbsp;Départemental&nbsp;individuel</dd>
-  
-  <dt>Adresse :</dt>
-  <dd>
-    Gymnase de l'Ardente        13    Rue    de Verdun        78420    CARRIERES SUR SEINE    FRANCE  </dd>
-
-      <dt>Itinéraire vers l’adresse</dt>
-    <dd>
-      48.91311 / 2.18513    </dd>
-  
-
-      <dt>Téléphone :</dt>
-    <dd><a href="tel:0139681773">0139681773</a></dd>
-  
-  <dt>E-mail :</dt>
-  <dd>
-    <a href="mailto:tiralarc@usc.asso.fr">tiralarc@usc.asso.fr</a>  </dd>
-
-      <dt>Site web :</dt>
-    <dd>
-      <a href="https://archers-de-carrieres78.sportsregions.fr" target="_blank">https://archers-de-carrieres78.sportsregions.fr</a>    </dd>
-  
+      <dt>Observation :</dt>
+    <dd>2 départs le samedi et 2 départs le dimanche </dd>
   
   
 
@@ -1741,6 +1674,77 @@ ouvert aux handis
     <dd>
       <a href="https://www.lesarchersduplessisrobinson.com/" target="_blank">https://www.lesarchersduplessisrobinson.com/</a>    </dd>
   
+  
+  
+
+</dl><dl class="dl-horizontal">
+  <dt>État :</dt>
+  <dd><span title="EprvId / EprvNumero : 58326 / " class="eprv-state eprv-state-A">Validée</span>
+  </dd>
+
+  <dt>Structure Organisatrice :</dt>
+  <dd>0893221 - ARCHERS DU VERT GALANT</dd>
+
+
+  <dt>Nom de l’épreuve :</dt>
+  <dd>
+
+    COMPETITION SALLE      </dd>
+
+  <dt>Type d’épreuve :</dt>
+  <dd>Individuel</dd>
+
+  <dt>Département :</dt>
+  <dd>93000 - COMITE DEPARTEMENTAL SEINE ST DENIS</dd>
+
+      <dt>Comité régional :</dt>
+    <dd>CR08 - COMITE REGIONAL ILE DE FRANCE DE TIR A L'ARC</dd>
+  
+  <dt>Discipline :</dt>
+  <dd>
+    Tir en Salle          - 2X18M          </dd>
+
+      <dt>Distances proposées :</dt>
+    <dd>
+      <ul class="list-unstyled inline">
+                  <li></li>
+        
+      </ul>
+    </dd>
+  
+  <dt>Date :</dt>
+  <dd>
+    Samedi 27/11/2021          <span> au </span>
+      Dimanche 28/11/2021      </dd>
+
+  <dt>Lieu :</dt>
+  <dd>TREMBLAY EN FRANCE</dd>
+
+      <dt>Caractéristique :</dt>
+    <dd>Individuel</dd>
+  
+  <dt>Adresse :</dt>
+  <dd>
+    GYMNASE TOUSSAINT LOUVERTURE        132    Route    Des Petits Ponts        93290    TREMBLAY EN FRANCE    FRANCE  </dd>
+
+      <dt>Itinéraire vers l’adresse</dt>
+    <dd>
+      48.96621 / 2.57165    </dd>
+  
+
+  
+  <dt>E-mail :</dt>
+  <dd>
+    <a href="mailto:nathaliebruni08@gmail.com">nathaliebruni08@gmail.com</a>  </dd>
+
+      <dt>Site web :</dt>
+    <dd>
+      <a href="http://archersduvertgalant-tremblay.com" target="_blank">http://archersduvertgalant-tremblay.com</a>    </dd>
+  
+      <dt>Observation :</dt>
+    <dd>14 cibles
+4 départs
+</dd>
   
   
 

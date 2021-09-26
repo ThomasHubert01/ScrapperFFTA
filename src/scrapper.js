@@ -21,13 +21,11 @@ class contest{
 }
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-// exemple of url to scrapp : 
-// https://www.ffta.fr/ws/epreuves?ChxDiscipline=S&ChxTypeChampionnat=&ChxLigue=CR08&ChxDepartement=&ChxClub=&ChxDateDebut=2021-09-18&ChxDateFin=2021-12-31
+
 
 async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
     console.log("Initiating scrapping...");
     
-   // const url = "https://gamepress.gg/feheroes/heroes" // test url
     
     var countdown = 0
 
@@ -40,30 +38,43 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
 
                 const $ = cheerio.load(html)
                 const contestTable = $('dl.dl-horizontal')
+                /*
                 var truc = String(contestTable);
+                fs.writeFile('../ressources/split.txt', "", (err) => { //reset the file
+                    if (err) throw err;
+                })
                 fs.writeFile('../ressources/template.txt', truc, (err) => {
                     if (err) throw err;
                 })
+                */
 
                 contestTable.each(function() {
                     countdown++;
-                    var info = 0;
-                    const testingdd =$(this).find('dd')//.text();
-                    //const testingdd2 =$(this).find('dd').text();
+                    var nbr_info = 0;
+                    const categorie_info =$(this).find('dd')//.text();
+                    const categories =$(this).find('dt')//.text()
+                
+                    let categorie = []
 
                     console.log('-------------------------------------------------------------------------------')
-                    //console.log(testingdd2);
-                    testingdd.each(function(){
-                        info++
-                        
-                        console.log(`${info} - ${testingdd}`);
+                    
+                    categories.each(function(){
+                        const each_categorie = $(this).text().toString()
+                        //console.log(each_categorie)
+                        //console.log("\n")
+                        categorie.push(each_categorie)
                     })
-                    console.log(`nombre d'info : ${info}`)
+                   
+ 
+                    categorie_info.each(function(){
+                        
+                        const info = $(this).text().toString()
+                        var info_trim = (info.trim());
+                        console.log(`${categorie[nbr_info]} : ${info_trim}`);             
+                        nbr_info++
+                    })
+                    console.log(`nombre d'info : ${nbr_info}`)
                 })
-                
-
-
-
             })
     }
     console.log(`There are ${countdown} contest(s)`)
