@@ -23,7 +23,7 @@ class contest{
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
-async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
+async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogTrue = false) {
     console.log("Initiating scrapping...");
     
     
@@ -47,33 +47,38 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
                     if (err) throw err;
                 })
                 */
+               const map_info = new Map();
 
                 contestTable.each(function() {
                     countdown++;
                     var nbr_info = 0;
-                    const categorie_info =$(this).find('dd')//.text();
-                    const categories =$(this).find('dt')//.text()
+                    const categorie_info =$(this).find('dd');
+                    const categories =$(this).find('dt');
                 
-                    let categorie = []
+                    let categorie = [];
 
-                    console.log('-------------------------------------------------------------------------------')
+                    console.log('-------------------------------------------------------------------------------');
                     
                     categories.each(function(){
-                        const each_categorie = $(this).text().toString()
-                        //console.log(each_categorie)
-                        //console.log("\n")
-                        categorie.push(each_categorie)
-                    })
+                        const each_categorie = $(this).text().toString().slice(0,-2);
+                        categorie.push(each_categorie);
+                    });
                    
  
                     categorie_info.each(function(){
                         
-                        const info = $(this).text().toString()
+                        const info = $(this).text().toString();
                         var info_trim = (info.trim());
-                        console.log(`${categorie[nbr_info]} : ${info_trim}`);             
-                        nbr_info++
+                        if(isLogTrue){
+                            console.log(`${categorie[nbr_info]} : ${info_trim}`);      
+                        }       
+
+                        map_info.set(categorie[nbr_info],info_trim );
+                        
+                        nbr_info++;
                     })
-                    console.log(`nombre d'info : ${nbr_info}`)
+                    console.log(map_info)
+                    console.log(`nombre d'info : ${nbr_info}`);
                 })
             })
     }
