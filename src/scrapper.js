@@ -41,6 +41,9 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
                 const $ = cheerio.load(html)
                 const contestTable = $('dl.dl-horizontal')
                 var truc = String(contestTable);
+                fs.writeFile('../ressources/split.txt', "", (err) => { //reset the file
+                    if (err) throw err;
+                })
                 fs.writeFile('../ressources/template.txt', truc, (err) => {
                     if (err) throw err;
                 })
@@ -49,15 +52,26 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax) {
                     countdown++;
                     var info = 0;
                     const testingdd =$(this).find('dd')//.text();
-                    //const testingdd2 =$(this).find('dd').text();
-
+                    const testingdt =$(this).find('dt').text();
+                    const testingdd2 =$(this).find('dd').text();
+                    
+                    fs.appendFileSync('../ressources/split.txt', testingdt, "UTF-8",{'flags': 'a+'})
+                    fs.appendFileSync('../ressources/split.txt', "\n", "UTF-8",{'flags': 'a+'})
+                    fs.appendFileSync('../ressources/split.txt', testingdd2, "UTF-8",{'flags': 'a+'})
+                    fs.appendFileSync('../ressources/split.txt', "\n-----\n", "UTF-8",{'flags': 'a+'})
                     console.log('-------------------------------------------------------------------------------')
+                    console.log(testingdt)
                     //console.log(testingdd2);
+ 
                     testingdd.each(function(){
                         info++
+                        const test = $(this).text().toString()
+                        var testtrim = (test.trim());
                         
-                        console.log(`${info} - ${testingdd}`);
+                        console.log(`a ${testtrim} b`);                        
+                        //console.log(`${info} - ${testingdd}`);
                     })
+                    
                     console.log(`nombre d'info : ${info}`)
                 })
                 
