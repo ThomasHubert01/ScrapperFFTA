@@ -3,22 +3,7 @@ const cheerio = require('cheerio');
 const JSON = require('JSON');
 const fs = require('fs');
 
-class contest{
-    constructor(town, dateStart, dateEnd, mandat, type, league, distance)
-    {
-        this.town = town;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.mandat = mandat;
-        this.type = type;
-        this.league = league;
-        this.distance = distance;
-    }
 
-    CSVline(){
-        return `${this.dateStart},${this.dateEnd},${this.town},${this.mandat},${this.type},${this.league},${this.distance}`
-    }
-}
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
