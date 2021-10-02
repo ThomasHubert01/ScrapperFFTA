@@ -9,7 +9,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 
-async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogTrue = false) {
+async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = false) {
     console.log("Initiating scrapping...");
     
     fs.writeFile('../ressources/info_concours.csv', "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Departement,Distance,Etat,Adresse", (err) => {
@@ -22,6 +22,23 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
     
 
     var page_to_read = 5;
+   
+    await axios(url_page)
+        .then(response => {
+            const html_page = response.data;
+
+            const $ = cheerio.load(html_page);
+            const PageTable = $('li.pager-item');
+            var nbr_page = 0;
+
+            PageTable.each(function(){
+                
+                nbr_page++
+            })
+
+            page_to_read = nbr_page/2;
+
+        })
 
 
     for(let page = 1; page < page_to_read+ 1; page++){
@@ -121,7 +138,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                         console.log(map_info)         
                     }     
                     // write in the file
-                    fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},mandat,${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
+                    fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
 
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
@@ -130,4 +147,4 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
     console.log(`There are ${countdown} contest(s)`)
 }
 
-scrappPage("S", "CR08", "2021-09-18","2021-12-31", 1);
+scrappPage("S", "CR08", "2021-09-18","2021-12-31");
