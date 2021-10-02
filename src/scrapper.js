@@ -17,7 +17,14 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
     })
     var countdown = 0
 
-    for(let page = 1; page < pageMax + 1; page++){
+    // retrieve the number of page for some parameters
+    url_page = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}`
+    
+
+    var page_to_read = 5;
+
+
+    for(let page = 1; page < page_to_read+ 1; page++){
         url = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}&Page=${page}`;
         console.log(`Scrapping url : ${url}`);
         await axios(url)
