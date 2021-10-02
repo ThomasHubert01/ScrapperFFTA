@@ -12,7 +12,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogTrue = false) {
     console.log("Initiating scrapping...");
     
-    fs.writeFile('../ressources/info_concours.csv', "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Departement,Distance,Etat", (err) => {
+    fs.writeFile('../ressources/info_concours.csv', "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Departement,Distance,Etat,Adresse", (err) => {
         if (err) throw err;
     })
     var countdown = 0
@@ -59,9 +59,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                         
                         const info = $(this).text().toString();
                         var info_trim = (info.trim());
-                        if(isLogTrue){
-                            console.log(`${categorie[nbr_info]} : ${info_trim}`);      
-                        }       
+                          
 
                         map_info.set(categorie[nbr_info],info_trim );
                         
@@ -87,12 +85,23 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                     var discipline = map_info.get("Discipline")
                     slice_discipline = discipline.split('-')
                     new_discipline = slice_discipline[0].trim()
-                    console.log(new_discipline)
+                    // console.log(new_discipline)
                     map_info.set("Discipline_simple",new_discipline)
                 
+                    //process address
+                    var address = "";
+                    if(map_info.has("Adresse")){
+                        var address_raw = map_info.get("Adresse");
+                        address = address_raw.replace(/\s\s+/g, ' ');
+                    }
+                    
+
                     // write in the file
-                    console.log(map_info)    
-                    fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},mandat,${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}\n`);
+                    if(isLogTrue){
+                        console.log(map_info)         
+                    }     
+                    
+                    fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},mandat,${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
             })
