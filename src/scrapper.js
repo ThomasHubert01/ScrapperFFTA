@@ -25,7 +25,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                 const html = response.data;
 
                 const $ = cheerio.load(html)
-                const contestTable = $('dl.dl-horizontal')
+                const contestTable = $('div.result-item')
                 /*
                 var truc = String(contestTable);
                 fs.writeFile('../ressources/split.txt', "", (err) => { //reset the file
@@ -40,15 +40,27 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                const map_info = new Map();
 
                 contestTable.each(function() {
+
+                    
+                    
                     countdown++;
+                    let categorie = [];
                     var nbr_info = 0;
+
+                    
                     const categorie_info =$(this).find('dd');
                     const categories =$(this).find('dt');
-                
-                    let categorie = [];
+                    var mandat = "";
+                    // search for the mandat
+                    const mandat_search =$(this).find('a.results');
+                    console.log(mandat_search.text())
+                    mandat_search.each(function(){
+                        mandat = $(this).attr('href');
+                        console.log(mandat);
+                    })
 
                     console.log('-------------------------------------------------------------------------------');
-                    
+              
                     categories.each(function(){
                         const each_categorie = $(this).text().toString().slice(0,-2);
                         categorie.push(each_categorie);
@@ -85,7 +97,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                     var discipline = map_info.get("Discipline")
                     slice_discipline = discipline.split('-')
                     new_discipline = slice_discipline[0].trim()
-                    // console.log(new_discipline)
+
                     map_info.set("Discipline_simple",new_discipline)
                 
                     //process address
@@ -96,12 +108,14 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
                     }
                     
 
-                    // write in the file
+                    
+
                     if(isLogTrue){
                         console.log(map_info)         
                     }     
-                    
+                    // write in the file
                     fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},mandat,${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
+
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
             })
@@ -109,4 +123,4 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, pageMax, isLogT
     console.log(`There are ${countdown} contest(s)`)
 }
 
-scrappPage("S", "CR08", "2021-09-18","2021-12-31", 5);
+scrappPage("S", "CR08", "2021-09-18","2021-12-31", 1);
