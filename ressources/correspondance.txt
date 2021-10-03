@@ -1,0 +1,11 @@
+----- Correspondance pour les Disciplines -----
+App = FFTA = URL
+SALLE = Tir en Salle = S
+3D = Tir 3D - 1 X 24 CIBLES = 3
+CAMPAGNE = Tir en Campagne = C
+NATURE = Tir Nature = N
+TAE = Tir à l'Arc Extérieur = T
+BEURSAULT  = Tir Beursault = B
+LOISIRS = Loisirs - Ludique = L
+RUN = Run Archery - Run Archery = A
+DEBUTANTS = Jeunes - RENCONTRE JEUNES = J

@@ -12,16 +12,31 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = false) {
     console.log("Initiating scrapping...");
     
-    fs.writeFile('../ressources/info_concours.csv', "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Departement,Distance,Etat,Adresse", (err) => {
+    let correspondance_discipline = new Map();
+    correspondance_discipline.set("SALLE",'S');
+    correspondance_discipline.set("3D",'3');
+    correspondance_discipline.set("CAMPAGNE",'C');
+    correspondance_discipline.set("NATURE",'N');
+    correspondance_discipline.set("TAE",'T');
+    correspondance_discipline.set("BEURSAULT",'B');
+    correspondance_discipline.set("LOISIR",'L');
+    correspondance_discipline.set("RUN",'A');
+    correspondance_discipline.set("DEBUTANTS",'J');
+
+    var discipline_url = correspondance_discipline.get(discipline);
+    console.log
+    console.log(correspondance_discipline.get("SALLE"))
+    var discipline_file = discipline.toLowerCase();
+    fs.writeFile(`../ressources/info_concours_${discipline_file}.csv`, "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Caracteristique,Departement,Distance,Etat,Adresse\n", (err) => {
         if (err) throw err;
     })
     var countdown = 0
 
     // retrieve the number of page for some parameters
-    url_page = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}`
+    url_page = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline_url}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}`
     
 
-    var page_to_read = 5;
+    var page_to_read = 1;
    
     await axios(url_page)
         .then(response => {
@@ -35,14 +50,16 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                 
                 nbr_page++
             })
-
-            page_to_read = nbr_page/2;
+            if(nbr_page>0){
+                page_to_read = nbr_page/2;
+            }
+            
 
         })
 
 
     for(let page = 1; page < page_to_read+ 1; page++){
-        url = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}&Page=${page}`;
+        url = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline_url}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}&Page=${page}`;
         console.log(`Scrapping url : ${url}`);
         await axios(url)
             .then(response => {
@@ -50,15 +67,6 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
 
                 const $ = cheerio.load(html)
                 const contestTable = $('div.result-item')
-                /*
-                var truc = String(contestTable);
-                fs.writeFile('../ressources/split.txt', "", (err) => { //reset the file
-                    if (err) throw err;
-                })
-                fs.writeFile('../ressources/template.txt', truc, (err) => {
-                    if (err) throw err;
-                })
-                */
 
                 
                const map_info = new Map();
@@ -77,10 +85,10 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                     var mandat = "";
                     // search for the mandat
                     const mandat_search =$(this).find('a.results');
-                    console.log(mandat_search.text())
+                    // console.log(mandat_search.text())
                     mandat_search.each(function(){
                         mandat = $(this).attr('href');
-                        console.log(mandat);
+                    //   console.log(mandat);
                     })
 
                     console.log('-------------------------------------------------------------------------------');
@@ -96,6 +104,17 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                         const info = $(this).text().toString();
                         var info_trim = (info.trim());
                           
+                        // process Etat (trim the final e)
+                        if(info_trim == "Validée" || info_trim == "Annulée" || info_trim == "Reportée"){                           
+                            info_trim = info_trim.substring(0,info_trim.length-1);
+                        }
+
+                        // process Department (get rid of "- COMITE DEPARTEMENTAL " and "- C.D. TIR A L'ARC " )
+                        if(categorie[nbr_info]== "Département"){
+                           
+                            info_trim = info_trim.replace("000 - COMITE DEPARTEMENTAL "," ");
+                            info_trim = info_trim.replace("000 - C.D. TIR A L'ARC "," ");
+                        }
 
                         map_info.set(categorie[nbr_info],info_trim );
                         
@@ -138,7 +157,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                         console.log(map_info)         
                     }     
                     // write in the file
-                    fs.appendFileSync('../ressources/info_concours.csv', `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${map_info.get("Discipline_simple")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
+                    fs.appendFileSync(`../ressources/info_concours_${discipline_file}.csv`, `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${discipline_file.toUpperCase()}, ${map_info.get("Caractéristique")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
 
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
@@ -147,4 +166,4 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
     console.log(`There are ${countdown} contest(s)`)
 }
 
-scrappPage("S", "CR08", "2021-09-18","2021-12-31");
+scrappPage("SALLE", "CR08", "2021-09-18","2021-12-31", isLogTrue=true);
