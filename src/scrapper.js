@@ -23,11 +23,20 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
     correspondance_discipline.set("RUN",'A');
     correspondance_discipline.set("DEBUTANTS",'J');
 
+    let correspondance_image = new Map();
+    correspondance_image.set("SALLE",'wix:image://v1/2e863e_3c6f6e7de9c0499ab69fecc8b775ed38~mv2.jpg/Logo%20Salle.jpg#originWidth=350&originHeight=350');
+    correspondance_image.set("3D",'wix:image://v1/2e863e_32c82422f08c42a9bbae492839b4875f~mv2.jpg/Logo%203D.jpg#originWidth=350&originHeight=350');
+    correspondance_image.set("CAMPAGNE",'wix:image://v1/2e863e_e2f01a1979ad4ab7854725475a54d42d~mv2.jpg/Logo%20Campagne.jpg#originWidth=344&originHeight=344');
+    correspondance_image.set("NATURE",'wix:image://v1/2e863e_e28f8477def84c18befd7f35e416040c~mv2.jpg/Logo%20Nature.jpg#originWidth=600&originHeight=600');
+    correspondance_image.set("TAE",'wix:image://v1/2e863e_32e5b736de654306a9eeda2e7911b577~mv2.jpg/Logo%20TAE.jpg#originWidth=350&originHeight=350');
+    correspondance_image.set("BEURSAULT",'wix:image://v1/2e863e_a1247d37746e487fbdf48a71ead8b4bd~mv2.png/Beursault.png#originWidth=900&originHeight=600');
+    correspondance_image.set("LOISIR",'wix:image://v1/2e863e_5f87d9777a0849d1bf9795336d25463f~mv2.png/logo-tir-a-larc%20loisir.png#originWidth=300&originHeight=300');
+    correspondance_image.set("RUN",'wix:image://v1/2e863e_b34bfa4adca54e1ba8d7928bee34b04f~mv2.jpg/archery-studio_run_archery_thonon90_edit.jpg#originWidth=600&originHeight=600');
+    correspondance_image.set("DEBUTANTS",'wix:image://v1/2e863e_9d5f82f0bdaa45569ae22aff81f5d25c~mv2.jpg/De%CC%81butants.jpg#originWidth=900&originHeight=600');
+
     var discipline_url = correspondance_discipline.get(discipline);
-    console.log
-    console.log(correspondance_discipline.get("SALLE"))
     var discipline_file = discipline.toLowerCase();
-    fs.writeFile(`../ressources/info_concours_${discipline_file}.csv`, "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Caracteristique,Departement,Distance,Etat,Adresse\n", (err) => {
+    fs.writeFile(`../ressources/info_concours_${discipline_file}.csv`, "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Caracteristique,Departement,Distance,Etat,Adresse,URL_Image\n", (err) => {
         if (err) throw err;
     })
     var countdown = 0
@@ -157,7 +166,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                         console.log(map_info)         
                     }     
                     // write in the file
-                    fs.appendFileSync(`../ressources/info_concours_${discipline_file}.csv`, `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${discipline_file.toUpperCase()}, ${map_info.get("Caractéristique")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}\n`);
+                    fs.appendFileSync(`../ressources/info_concours_${discipline_file}.csv`, `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${discipline_file.toUpperCase()}, ${map_info.get("Caractéristique")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}, ${correspondance_image.get(discipline_file.toUpperCase())}\n`);
 
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
