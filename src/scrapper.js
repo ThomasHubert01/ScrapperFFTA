@@ -19,7 +19,7 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
     correspondance_discipline.set("NATURE",'N');
     correspondance_discipline.set("TAE",'T');
     correspondance_discipline.set("BEURSAULT",'B');
-    correspondance_discipline.set("LOISIR",'L');
+    correspondance_discipline.set("LOISIRS",'L');
     correspondance_discipline.set("RUN",'A');
     correspondance_discipline.set("DEBUTANTS",'J');
 
@@ -30,17 +30,17 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
     correspondance_image.set("NATURE",'wix:image://v1/2e863e_e28f8477def84c18befd7f35e416040c~mv2.jpg/Logo%20Nature.jpg#originWidth=600&originHeight=600');
     correspondance_image.set("TAE",'wix:image://v1/2e863e_32e5b736de654306a9eeda2e7911b577~mv2.jpg/Logo%20TAE.jpg#originWidth=350&originHeight=350');
     correspondance_image.set("BEURSAULT",'wix:image://v1/2e863e_a1247d37746e487fbdf48a71ead8b4bd~mv2.png/Beursault.png#originWidth=900&originHeight=600');
-    correspondance_image.set("LOISIR",'wix:image://v1/2e863e_5f87d9777a0849d1bf9795336d25463f~mv2.png/logo-tir-a-larc%20loisir.png#originWidth=300&originHeight=300');
+    correspondance_image.set("LOISIRS",'wix:image://v1/2e863e_5f87d9777a0849d1bf9795336d25463f~mv2.png/logo-tir-a-larc%20loisir.png#originWidth=300&originHeight=300');
     correspondance_image.set("RUN",'wix:image://v1/2e863e_b34bfa4adca54e1ba8d7928bee34b04f~mv2.jpg/archery-studio_run_archery_thonon90_edit.jpg#originWidth=600&originHeight=600');
     correspondance_image.set("DEBUTANTS",'wix:image://v1/2e863e_9d5f82f0bdaa45569ae22aff81f5d25c~mv2.jpg/De%CC%81butants.jpg#originWidth=900&originHeight=600');
 
     var discipline_url = correspondance_discipline.get(discipline);
     var discipline_file = discipline.toLowerCase();
-    fs.writeFile(`../ressources/info_concours_${discipline_file}.csv`, "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Caracteristique,Departement,Distance,Etat,Adresse,URL_Image\n", (err) => {
+    fs.writeFile(`../ressources/info_concours_${discipline_file}.csv`, "StartDate,EndDate,Lieu,mandat,TypeEpreuve,Caracteristique,Departement,Coordonnees,Etat,Adresse,URL_Image\n", (err) => {
         if (err) throw err;
     })
-    var countdown = 0
-
+    var countdown = 0;
+    var distance = 0;
     // retrieve the number of page for some parameters
     url_page = `https://www.ffta.fr/ws/epreuves?ChxDiscipline=${discipline_url}&ChxTypeChampionnat=&ChxLigue=${ligue}&ChxDepartement=&ChxClub=&ChxDateDebut=${dateStart}&ChxDateFin=${dateEnd}`
     
@@ -160,13 +160,18 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
                     }
                     
 
-                    
+                    // process position 
+                    var coordinate = '';
+                    if(map_info.has("Itinéraire vers l’adres")){
+                        coordinate = map_info.get("Itinéraire vers l’adres");
+                     
+                    }
 
                     if(isLogTrue){
                         console.log(map_info)         
                     }     
                     // write in the file
-                    fs.appendFileSync(`../ressources/info_concours_${discipline_file}.csv`, `${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat}, ${discipline_file.toUpperCase()}, ${map_info.get("Caractéristique")}, ${map_info.get("Département")}, distance, ${map_info.get("État")}, ${address}, ${correspondance_image.get(discipline_file.toUpperCase())}\n`);
+                    fs.appendFileSync(`../ressources/info_concours_${discipline_file}.csv`,`${map_info.get("DateStart")},${map_info.get("DateEnd")},${map_info.get("Lieu")},${mandat},${discipline_file.toUpperCase()},${map_info.get("Caractéristique")},${map_info.get("Département")},${coordinate},${map_info.get("État")},${address},${correspondance_image.get(discipline_file.toUpperCase())}\n`);
 
                     //console.log(`nombre d'info : ${nbr_info}`);
                 })
@@ -175,4 +180,4 @@ async function scrappPage(discipline, ligue, dateStart, dateEnd, isLogTrue = fal
     console.log(`There are ${countdown} contest(s)`)
 }
 
-scrappPage("SALLE", "CR08", "2021-09-18","2021-12-31", isLogTrue=true);
+scrappPage("LOISIRS", "CR08", "2021-09-18","2021-12-31", isLogTrue=false);
